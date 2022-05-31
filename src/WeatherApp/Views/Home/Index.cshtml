@@ -1,0 +1,74 @@
+﻿@model IndexViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+    <div class="row text-center mt-5 mb-5">
+        <h2 class="md-5">Forecast of daily average temperatures</h2>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <div class="card mb-4 rounded-3 shadow-sm">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Coordinates</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-route="Home" method="post" accept-charset="UTF-8">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="row g-3">
+                            <div class="col">
+                                <label asp-for="@Model.Latitude">Latitude</label>
+                                <input asp-for="@Model.Latitude" class="form-control">
+                                <span asp-validation-for="Latitude" class="text-danger"></span>
+                            </div>
+                            <div class="col">
+                                <label asp-for="@Model.Longitude">Longitude</label>
+                                <input asp-for="@Model.Longitude" class="form-control">
+                                <span asp-validation-for="Longitude" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline-dark btn-sm mt-3" type="submit">Get forcast</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card mb-4 rounded-3 shadow-sm">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Weekly forecast</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Temperature [&degC]</th>
+                            </tr>
+                        </thead>
+                        @if (Model.AverageTemperatures != null)
+                        {
+                            <tbody>
+                                @foreach (var day in Model.AverageTemperatures)
+                                {
+                                    <tr>
+                                        <td>@day.Key</td>
+                                        <td>@day.Value</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        }
+                    </table>
+                    @if (Model.AverageTemperatures != null)
+                    {
+                        <a class="btn btn-outline-dark btn-sm mt-3" target="_top" asp-route="DownloadResult">Download</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
